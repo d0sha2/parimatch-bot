@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters.state import StateFilter
 from states import UserStates
-from keyboardhelp import get_keyboard
+from keyboardhelp import keyboards
 
 from config import TOKEN
 
@@ -17,7 +17,7 @@ dp = Dispatcher(storage=storage)
 
 @dp.message(Command("start"))
 async def start(message: types.Message, state: FSMContext):
-    kb = get_keyboard(["/test"])
+    kb = keyboards[UserStates.BASE]
     await message.answer("privet! Z '[j-,jn", reply_markup=kb)
     await state.set_state(UserStates.BASE)
 
@@ -25,7 +25,6 @@ async def start(message: types.Message, state: FSMContext):
 @dp.message(Command("test"), StateFilter(UserStates.BASE))
 async def start(message: types.Message):
     await message.answer("ty v bases")
-
 
 
 async def main():
