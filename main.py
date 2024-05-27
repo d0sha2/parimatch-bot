@@ -9,6 +9,8 @@ from aiogram import F
 from states import UserStates
 from keyboardhelp import keyboards
 
+import pariservise as ps
+
 from config import TOKEN
 
 storage = MemoryStorage()
@@ -30,12 +32,17 @@ async def start(message: types.Message):
 
 @dp.message(F.text == "My pari", StateFilter(UserStates.BASE))
 async def moi_pari(message: types.Message):
-    await message.answer("yours pari:")
+    text = "yours pari:"
+    paris = ps.get_paris(message.from_user.id)
+    for pari in paris:
+        text += "\n" + pari
+    await message.answer(text)
 
 
 @dp.message(F.text == "Create pari", StateFilter(UserStates.BASE))
 async def create_pari(message: types.Message):
-    await message.answer("-")
+    text = ps.add_pari(message.from_user.id, message.text)
+    await message.answer(text)
 
 
 async def main():
