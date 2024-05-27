@@ -5,6 +5,7 @@ import asyncio
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters.state import StateFilter
+from aiogram import F
 from states import UserStates
 from keyboardhelp import keyboards
 
@@ -25,6 +26,16 @@ async def start(message: types.Message, state: FSMContext):
 @dp.message(Command("test"), StateFilter(UserStates.BASE))
 async def start(message: types.Message):
     await message.answer("ty v bases")
+
+
+@dp.message(F.text == "My pari", StateFilter(UserStates.BASE))
+async def moi_pari(message: types.Message):
+    await message.answer("yours pari:")
+
+
+@dp.message(F.text == "Create pari", StateFilter(UserStates.BASE))
+async def create_pari(message: types.Message):
+    await message.answer("-")
 
 
 async def main():
